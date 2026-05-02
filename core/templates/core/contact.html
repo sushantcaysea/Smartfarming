@@ -1,0 +1,618 @@
+{% extends "django_base.html" %}
+
+{% block title %}Contact Us - Smart Farming Assistant{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Futuristic Contact Page Styles */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .contact-hero {
+    text-align: center;
+    padding: 6rem 0 4rem;
+    position: relative;
+    background: linear-gradient(135deg, rgba(37, 77, 50, 0.9), rgba(58, 125, 68, 0.8)),
+                url('https://images.unsplash.com/photo-1586771107445-d3ca888129ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+    background-size: cover;
+    color: white;
+    border-radius: 20px;
+    margin: 2rem 0 4rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+  
+  .contact-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 0;
+  }
+  
+  .contact-hero h1 {
+    font-size: 4.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    background: linear-gradient(90deg, #fff, #ffca28);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .contact-hero p {
+    font-size: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    opacity: 0.9;
+  }
+  
+  .contact-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    margin: 5rem 0;
+  }
+  
+  .contact-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.05), transparent);
+    z-index: -1;
+  }
+  
+  .contact-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 40px rgba(76, 175, 80, 0.2);
+    border-color: var(--primary-green);
+  }
+  
+  .contact-card i {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-green);
+    background: rgba(76, 175, 80, 0.1);
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+  
+  .contact-card:hover i {
+    transform: rotateY(180deg);
+    background: rgba(76, 175, 80, 0.2);
+  }
+  
+  .contact-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+    font-weight: 600;
+  }
+  
+  .contact-card p {
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .contact-card .contact-info {
+    font-size: 1.3rem;
+    margin: 1rem 0;
+    color: var(--text-dark);
+    font-weight: 600;
+  }
+  
+  .contact-card .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    background: var(--primary-green);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+  }
+  
+  .contact-card .btn i {
+    font-size: 1rem;
+    margin: 0;
+    color: white;
+    background: none;
+    width: auto;
+    height: auto;
+    line-height: 1;
+    border-radius: 0;
+  }
+  
+  .contact-card .btn:hover {
+    background: var(--secondary-green);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+  }
+  
+  .contact-form {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem;
+    margin: 5rem 0;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .contact-form::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(76, 175, 80, 0) 0%,
+      rgba(76, 175, 80, 0.05) 50%,
+      rgba(76, 175, 80, 0) 100%
+    );
+    transform: rotate(30deg);
+    animation: shine 6s infinite;
+  }
+  
+  .contact-form h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: var(--text-dark);
+    position: relative;
+    font-weight: 600;
+  }
+  
+  .contact-form h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-green), var(--secondary-green));
+    border-radius: 2px;
+  }
+  
+  .contact-form form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    background: #f9f9f9;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    color: var(--text-dark);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    background: white;
+  }
+  
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder {
+    color: #999;
+  }
+  
+  .contact-form textarea {
+    grid-column: 1 / -1;
+    min-height: 200px;
+    resize: vertical;
+  }
+  
+  .contact-form button {
+    grid-column: 1 / -1;
+    justify-self: center;
+    padding: 1.2rem 3rem;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+  }
+  
+  .contact-form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, var(--secondary-green), var(--primary-green));
+  }
+  
+  .contact-form button i {
+    margin-left: 0.8rem;
+    font-size: 1.2rem;
+  }
+  
+  /* Futuristic elements */
+  .tech-circle {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(106, 189, 70, 0.1);
+    border: 2px dashed rgba(106, 189, 70, 0.5);
+    animation: rotate 20s linear infinite;
+    z-index: -1;
+  }
+  
+  .tech-circle:nth-child(1) {
+    top: 10%;
+    left: 5%;
+    width: 300px;
+    height: 300px;
+  }
+  
+  .tech-circle:nth-child(2) {
+    bottom: 15%;
+    right: 10%;
+    width: 250px;
+    height: 250px;
+    animation-direction: reverse;
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .data-points {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  .data-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--sun-yellow);
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: float 5s infinite ease-in-out;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  /* Interactive Map */
+  .interactive-map {
+    height: 400px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    margin: 5rem 0;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(37, 77, 50, 0.6);
+    color: white;
+    z-index: 1;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .map-overlay h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .map-overlay p {
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+  
+  .map-overlay .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    background: var(--sun-yellow);
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .map-overlay .btn:hover {
+    background: #ffd54f;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 202, 40, 0.3);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .contact-hero h1 {
+      font-size: 3.5rem;
+    }
+    
+    .contact-methods {
+      gap: 1.5rem;
+    }
+    
+    .contact-form form {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .contact-hero {
+      padding: 4rem 0;
+    }
+    
+    .contact-hero h1 {
+      font-size: 2.8rem;
+    }
+    
+    .contact-hero p {
+      font-size: 1.2rem;
+    }
+    
+    .contact-card {
+      padding: 2rem;
+    }
+    
+    .contact-form {
+      padding: 2rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .contact-hero h1 {
+      font-size: 2.2rem;
+    }
+    
+    .contact-hero p {
+      font-size: 1rem;
+    }
+    
+    .contact-card {
+      padding: 1.5rem;
+    }
+    
+    .contact-card i {
+      font-size: 2.5rem;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+    }
+    
+    .contact-form h2 {
+      font-size: 2rem;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <!-- Futuristic background elements -->
+  <div class="data-points">
+    <div class="data-point" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+    <div class="data-point" style="top: 60%; left: 25%; animation-delay: 0.5s;"></div>
+    <div class="data-point" style="top: 40%; left: 75%; animation-delay: 1s;"></div>
+    <div class="data-point" style="top: 80%; left: 65%; animation-delay: 1.5s;"></div>
+    <div class="data-point" style="top: 30%; left: 50%; animation-delay: 2s;"></div>
+  </div>
+  
+  <div class="tech-circle"></div>
+  <div class="tech-circle"></div>
+  
+  <div class="contact-hero">
+    <h1>Contact Our Team</h1>
+    <p>Connect with the future of farming innovation</p>
+  </div>
+
+  <div class="contact-methods">
+    <div class="contact-card">
+      <i class="fas fa-envelope"></i>
+      <h3>Email Us</h3>
+      <p>Get detailed responses within 24 hours from our expert team</p>
+      <p class="contact-info">support@smartfarming.com</p>
+      <a href="mailto:support@smartfarming.com" class="btn">
+        <i class="fas fa-paper-plane"></i> Send Message
+      </a>
+    </div>
+
+    <div class="contact-card">
+      <i class="fas fa-phone"></i>
+      <h3>Call Us</h3>
+      <p>Speak directly with our agricultural technology specialists</p>
+      <p class="contact-info">+977 9840165425</p>
+      <a href="tel:+9779840165425" class="btn">
+        <i class="fas fa-phone-alt"></i> Call Now
+      </a>
+    </div>
+
+    <div class="contact-card">
+      <i class="fas fa-map-marker-alt"></i>
+      <h3>Visit Us</h3>
+      <p>Schedule a tour of our innovation center and demo farm</p>
+      <p class="contact-info">
+        Kathmandu, Nepal
+      </p>
+      <a href="#" class="btn">
+        <i class="fas fa-directions"></i> Get Directions
+      </a>
+    </div>
+  </div>
+
+  <div class="interactive-map">
+    <div class="map-overlay">
+      <h3>Our Global Innovation Center</h3>
+      <p>Visit our state-of-the-art research facility where we develop the agricultural technologies of tomorrow</p>
+      <a href="#" class="btn">Schedule a Visit</a>
+    </div>
+    <!-- In a real implementation, you would embed a map here -->
+  </div>
+
+  <div class="contact-form">
+    <h2>Send Us a Message</h2>
+    <form id="contactForm">
+            {% csrf_token %}
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <input type="text" placeholder="Subject">
+      <input type="tel" placeholder="Phone Number">
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit">
+        Send Message <i class="fas fa-arrow-right"></i>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Add futuristic particle effect
+  document.addEventListener('DOMContentLoaded', function() {
+    const dataPoints = document.querySelector('.data-points');
+    
+    // Create more data points dynamically
+    for (let i = 0; i < 20; i++) {
+      const point = document.createElement('div');
+      point.className = 'data-point';
+      point.style.left = `${Math.random() * 100}%`;
+      point.style.top = `${Math.random() * 100}%`;
+      point.style.animationDelay = `${Math.random() * 3}s`;
+      point.style.width = `${Math.random() * 6 + 4}px`;
+      point.style.height = point.style.width;
+      point.style.opacity = Math.random() * 0.5 + 0.3;
+      dataPoints.appendChild(point);
+    }
+    
+    // Add interactive form effects
+    const form = document.getElementById('contactForm');
+    const inputs = form.querySelectorAll('input, textarea');
+    
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentNode.style.transform = 'translateY(-5px)';
+        this.style.boxShadow = '0 0 0 3px rgba(255, 202, 40, 0.3)';
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentNode.style.transform = '';
+        this.style.boxShadow = '';
+      });
+    });
+    
+    // Form submission animation
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+      submitBtn.disabled = true;
+      
+      // Simulate form submission
+      setTimeout(() => {
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+        setTimeout(() => {
+          submitBtn.innerHTML = 'Send Message <i class="fas fa-arrow-right"></i>';
+          submitBtn.disabled = false;
+          form.reset();
+          
+          // Show success message
+          const successMsg = document.createElement('div');
+          successMsg.className = 'flash-message flash-success';
+          successMsg.innerHTML = `
+            <div>
+              <i class="fas fa-check-circle"></i>
+              Your message has been sent successfully! We'll get back to you soon.
+            </div>
+            <span class="close-flash" onclick="this.parentElement.style.display='none'">&times;</span>
+          `;
+          document.querySelector('.container').prepend(successMsg);
+          
+          // Auto-hide after 5 seconds
+          setTimeout(() => {
+            successMsg.style.opacity = '0';
+            setTimeout(() => successMsg.remove(), 300);
+          }, 5000);
+        }, 2000);
+      }, 1500);
+    });
+  });
+</script>
+{% endblock %}

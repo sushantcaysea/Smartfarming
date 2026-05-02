@@ -1,0 +1,448 @@
+{% extends "django_base.html" %}
+
+{% block title %}Home - Smart Farming Assistant{% endblock %}
+
+{% block content %}
+<style>
+  /* Hero Section - Modern Gradient with Overlay */
+  .hero {
+    position: relative;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+    color: white;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+    margin: 0;
+    overflow: hidden;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1600') center/cover;
+    opacity: 0.15;
+    z-index: 0;
+  }
+  
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, #f9f9f7);
+    z-index: 1;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: fadeInDown 1s ease-out;
+  }
+  
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    animation: fadeInUp 1s ease-out 0.2s both;
+    background: linear-gradient(to right, #fff, #e0e0e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .hero p {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+    opacity: 0.95;
+    animation: fadeInUp 1s ease-out 0.4s both;
+  }
+  
+  .hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.6s both;
+  }
+  
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+  }
+  
+  .btn-primary:hover::before {
+    left: 100%;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(76, 175, 80, 0.4);
+  }
+  
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Features Section - Card Grid */
+  .features-section {
+    margin: 0;
+    padding: 5rem 4rem;
+    background: #f9f9f7;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  
+  .section-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    color: var(--primary-green);
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2.8rem;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+  }
+  
+  .section-header p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .feature-card {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #4CAF50, #66BB6A, #81C784);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+  
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  }
+  
+  .feature-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+    position: relative;
+  }
+  
+  .feature-card:hover .feature-icon-wrapper {
+    transform: rotateY(360deg);
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary-green);
+    transition: all 0.4s ease;
+  }
+  
+  .feature-card:hover .feature-icon {
+    color: white;
+    transform: scale(1.1);
+  }
+  
+  .feature-card h3 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .feature-card p {
+    color: #666;
+    line-height: 1.8;
+    font-size: 1rem;
+  }
+  
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    padding: 5rem 4rem;
+    border-radius: 0;
+    text-align: center;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .cta-section::before {
+    content: '🌾';
+    position: absolute;
+    font-size: 15rem;
+    opacity: 0.1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+  }
+  
+  .cta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .cta-section h2 {
+    font-size: 2.5rem;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+  }
+  
+  .cta-section p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .cta-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 5rem 1.5rem 4rem;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+    
+    .hero p {
+      font-size: 1.1rem;
+    }
+    
+    .hero-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .btn-primary, .btn-secondary {
+      justify-content: center;
+    }
+    
+    .section-header h2 {
+      font-size: 2rem;
+    }
+    
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .cta-section {
+      padding: 3rem 2rem;
+    }
+    
+    .cta-section h2 {
+      font-size: 2rem;
+    }
+  }
+</style>
+
+<!-- Hero Section -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fas fa-sparkles"></i> AI-Powered Agricultural Intelligence
+    </div>
+    <h1>Transform Your Farming with Smart Technology</h1>
+    <p>Leverage cutting-edge machine learning to make data-driven decisions, optimize crop yields, and protect your harvest from diseases</p>
+    <div class="hero-buttons">
+      <a href="{% url 'crops:recommendation' %}" class="btn-primary">
+        <i class="fas fa-seedling"></i>
+        Get Crop Recommendations
+      </a>
+      <a href="{% url 'diseases:detection' %}" class="btn-secondary">
+        <i class="fas fa-microscope"></i>
+        Detect Plant Diseases
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<section class="features-section">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-star"></i> Our Services
+    </div>
+    <h2>Comprehensive Agricultural Solutions</h2>
+    <p>Everything you need to make informed farming decisions in one intelligent platform</p>
+  </div>
+  
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon-wrapper">
+        <i class="fas fa-brain feature-icon"></i>
+      </div>
+      <h3>AI-Powered Analysis</h3>
+      <p>Advanced machine learning algorithms analyze soil composition, climate data, and environmental factors to recommend the most suitable crops for your land</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon-wrapper">
+        <i class="fas fa-disease feature-icon"></i>
+      </div>
+      <h3>Disease Detection</h3>
+      <p>Upload leaf images and get instant disease identification with 95%+ accuracy. Early detection means timely treatment and saved crops</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon-wrapper">
+        <i class="fas fa-chart-line feature-icon"></i>
+      </div>
+      <h3>Data-Driven Insights</h3>
+      <p>Comprehensive analytics dashboard providing actionable insights based on historical data, weather patterns, and market trends</p>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="cta-content">
+    <h2>Ready to Revolutionize Your Farming?</h2>
+    <p>Join thousands of farmers who are already using our platform to make smarter agricultural decisions and maximize their yields</p>
+    <div class="cta-buttons">
+      <a href="{% url 'crops:recommendation' %}" class="btn-primary">
+        <i class="fas fa-seedling"></i>
+        Start Crop Analysis
+      </a>
+      <a href="{% url 'diseases:detection' %}" class="btn-primary">
+        <i class="fas fa-microscope"></i>
+        Check Plant Health
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

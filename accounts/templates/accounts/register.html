@@ -1,0 +1,264 @@
+{% extends "django_base.html" %}
+
+{% block title %}Register | Smart Farming{% endblock %}
+
+{% block extra_css %}
+<style>
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+:root {
+    --primary-green: #3a7d44;
+    --secondary-green: #6bbd46;
+    --dark-green: #162938;
+    --light-text: rgba(255, 255, 255, 0.9);
+    --error-red: #ff6b6b;
+    --input-bg: rgba(255, 255, 255, 0.05);
+}
+
+body {
+    background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.wrapper {
+    width: 420px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.05), 0 0 30px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    margin: 60px auto;
+}
+
+.form-box.register h2 {
+    font-size: 2em;
+    color: var(--light-text);
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.input-container {
+    margin-bottom: 25px;
+}
+
+.input-container label {
+    display: block;
+    color: var(--light-text);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent !important;  /* force transparency */
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: var(--light-text);
+    font-weight: 500;
+    padding: 0 35px 0 5px;
+    box-shadow: none !important; /* remove browser default shadow */
+}
+
+
+.input-box .icon {
+    position: absolute;
+    right: 35px;
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 57px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 57px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.password-toggle:hover {
+    color: var(--secondary-green);
+}
+
+.btn {
+    width: 100%;
+    height: 45px;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color: var(--light-text);
+    font-weight: 600;
+    transition: .5s;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background: var(--secondary-green);
+    border-color: var(--secondary-green);
+    box-shadow: 0 0 15px rgba(107, 189, 70, 0.5);
+}
+
+.login-register {
+    font-size: .9em;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+}
+
+.login-register a {
+    color: var(--light-text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: .5s;
+}
+
+.login-register a:hover {
+    color: var(--secondary-green);
+    text-decoration: underline;
+}
+
+.error-message {
+    color: var(--error-red);
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.password-requirements {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    box-shadow: 0 0 0 1000px transparent inset !important;
+    -webkit-text-fill-color: var(--light-text) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="form-box register">
+        <h2>Create Account</h2>
+        <form method="POST" action="{% url 'accounts:register' %}">
+            {% csrf_token %}
+            <div class="input-container">
+                <label>Username</label>
+                <div class="input-box">
+                    <span class="icon"><i class="fas fa-user"></i></span>
+                    <input type="text" id="username" name="username" required>
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <label>Password</label>
+                <div class="input-box">
+                    <span class="icon"><i class="fas fa-lock"></i></span>
+                    <input type="password" id="password" name="password" required>
+                    <span class="password-toggle" id="togglePassword">
+                        <i class="far fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <label>Confirm Password</label>
+                <div class="input-box">
+                    <span class="icon"><i class="fas fa-lock"></i></span>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                    <span class="password-toggle" id="toggleConfirmPassword">
+                        <i class="far fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="password-requirements">
+                <i class="fas fa-info-circle"></i> Password must be at least 8 characters
+            </div>
+            
+            <button type="submit" class="btn">Register</button>
+            
+            {% if error %}
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+            {% endif %}
+            
+            <div class="login-register">
+                <p>Already have an account? <a href="{% url 'accounts:login' %}">Login here</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.querySelector('#togglePassword');
+    const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+    const password = document.querySelector('#password');
+    const confirm_password = document.querySelector('#confirm_password');
+
+    function togglePasswordVisibility(field, toggle) {
+        const type = field.getAttribute('type') === 'password' ? 'text' : 'password';
+        field.setAttribute('type', type);
+        toggle.querySelector('i').classList.toggle('fa-eye');
+        toggle.querySelector('i').classList.toggle('fa-eye-slash');
+    }
+
+    if (togglePassword) {
+        togglePassword.addEventListener('click', function() {
+            togglePasswordVisibility(password, this);
+        });
+    }
+
+    if (toggleConfirmPassword) {
+        toggleConfirmPassword.addEventListener('click', function() {
+            togglePasswordVisibility(confirm_password, this);
+        });
+    }
+
+    function validatePassword() {
+        if (password.value !== confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords don't match");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    if (password && confirm_password) {
+        password.addEventListener('change', validatePassword);
+        confirm_password.addEventListener('keyup', validatePassword);
+    }
+});
+</script>
+{% endblock %}

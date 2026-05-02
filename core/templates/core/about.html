@@ -1,0 +1,429 @@
+{% extends "django_base.html" %}
+{% load static %}
+
+{% block title %}About Us - Smart Farming Assistant{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Futuristic About Page Styles */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .about-hero {
+    text-align: center;
+    padding: 5rem 0;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(37, 77, 50, 0.9), rgba(58, 125, 68, 0.8)),
+                url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+    background-size: cover;
+    color: white;
+    border-radius: 20px;
+    margin: 2rem 0;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 0;
+  }
+  
+  .about-hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    background: linear-gradient(90deg, #fff, #ffca28);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ffca28, 0 0 40px #ffca28;
+    }
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff9800, 0 0 40px #ff9800, 0 0 50px #ff9800;
+    }
+  }
+  
+  .about-hero p {
+    font-size: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    opacity: 0.9;
+  }
+  
+  .about-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 3rem;
+    margin: 3rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .about-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
+  }
+  
+  .about-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-green);
+    position: relative;
+    display: inline-block;
+  }
+  
+  .about-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--sun-yellow), var(--harvest-orange));
+    border-radius: 2px;
+  }
+  
+  .about-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  
+  .team-section {
+    margin: 5rem 0;
+  }
+  
+  .team-section h2 {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    color: white;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 2rem;
+  }
+  
+  .team-section h2::before,
+  .team-section h2::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--sun-yellow));
+  }
+  
+  .team-section h2::before {
+    right: 100%;
+  }
+  
+  .team-section h2::after {
+    left: 100%;
+    background: linear-gradient(90deg, var(--sun-yellow), transparent);
+  }
+  
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+  
+  .team-member {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .team-member::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    animation: shine 3s infinite;
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) rotate(30deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(30deg);
+    }
+  }
+  
+  .team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .team-member:hover img {
+    transform: scale(1.05);
+    border-color: var(--sun-yellow);
+  }
+  
+  .team-member h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+  }
+  
+  .team-member p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+  }
+  
+  /* Futuristic elements */
+  .tech-circle {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(106, 189, 70, 0.1);
+    border: 2px dashed rgba(106, 189, 70, 0.5);
+    animation: rotate 20s linear infinite;
+    z-index: -1;
+  }
+  
+  .tech-circle:nth-child(1) {
+    top: 10%;
+    left: 5%;
+    width: 300px;
+    height: 300px;
+  }
+  
+  .tech-circle:nth-child(2) {
+    bottom: 15%;
+    right: 10%;
+    width: 250px;
+    height: 250px;
+    animation-direction: reverse;
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .data-points {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  .data-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--sun-yellow);
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: float 5s infinite ease-in-out;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .about-hero h1 {
+      font-size: 3rem;
+    }
+    
+    .about-hero p {
+      font-size: 1.2rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .about-hero {
+      padding: 3rem 0;
+    }
+    
+    .about-hero h1 {
+      font-size: 2.5rem;
+    }
+    
+    .about-section {
+      padding: 2rem;
+    }
+    
+    .team-section h2 {
+      font-size: 2.2rem;
+    }
+    
+    .team-section h2::before,
+    .team-section h2::after {
+      width: 50px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .about-hero h1 {
+      font-size: 2rem;
+    }
+    
+    .about-hero p {
+      font-size: 1rem;
+    }
+    
+    .about-section {
+      padding: 1.5rem;
+    }
+    
+    .team-section h2::before,
+    .team-section h2::after {
+      display: none;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <!-- Futuristic background elements -->
+  <div class="data-points">
+    <div class="data-point" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+    <div class="data-point" style="top: 60%; left: 25%; animation-delay: 0.5s;"></div>
+    <div class="data-point" style="top: 40%; left: 75%; animation-delay: 1s;"></div>
+    <div class="data-point" style="top: 80%; left: 65%; animation-delay: 1.5s;"></div>
+    <div class="data-point" style="top: 30%; left: 50%; animation-delay: 2s;"></div>
+  </div>
+  
+  <div class="tech-circle"></div>
+  <div class="tech-circle"></div>
+  
+  <div class="about-hero">
+    <h1>About Smart Farming Assistant</h1>
+    <p>Empowering the future of agriculture with AI-driven precision and innovation</p>
+  </div>
+
+  <div class="about-section">
+    <h2>Our Mission</h2>
+    <p>At Smart Farming Assistant, we're pioneering the next agricultural revolution by merging cutting-edge artificial intelligence with deep agronomic expertise. Our platform transforms complex agricultural data into actionable insights, helping farmers optimize every aspect of their operations.</p>
+    <p>We envision a world where technology eliminates guesswork in farming, enabling sustainable practices that maximize yield while minimizing environmental impact.</p>
+  </div>
+
+  <div class="about-section">
+    <h2>Our Technology</h2>
+    <p>Powered by advanced machine learning algorithms and real-time IoT sensor data, our system provides:</p>
+    <ul style="list-style-type: none; padding-left: 0;">
+      <li style="padding: 0.5rem 0; display: flex; align-items: center;">
+        <i class="fas fa-robot" style="color: var(--sun-yellow); margin-right: 1rem; font-size: 1.2rem;"></i>
+        <span>AI-powered crop recommendation engine with 94% accuracy</span>
+      </li>
+      <li style="padding: 0.5rem 0; display: flex; align-items: center;">
+        <i class="fas fa-eye" style="color: var(--sun-yellow); margin-right: 1rem; font-size: 1.2rem;"></i>
+        <span>Computer vision for instant plant disease detection</span>
+      </li>
+      <li style="padding: 0.5rem 0; display: flex; align-items: center;">
+        <i class="fas fa-chart-line" style="color: var(--sun-yellow); margin-right: 1rem; font-size: 1.2rem;"></i>
+        <span>Predictive analytics for yield optimization</span>
+      </li>
+    </ul>
+  </div>
+
+  
+  <div class="about-section">
+    <h2>Join the Agricultural Revolution</h2>
+    <p>Our platform is constantly evolving with new features and capabilities. Be part of the future of farming by trying Smart Farming Assistant today.</p>
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="{% url 'accounts:register' %}" class="auth-btn register-btn" style="display: inline-flex; align-items: center; padding: 1rem 2rem; font-size: 1.1rem;">
+        <i class="fas fa-rocket" style="margin-right: 0.8rem;"></i> Get Started Now
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Add futuristic particle effect
+  document.addEventListener('DOMContentLoaded', function() {
+    const dataPoints = document.querySelector('.data-points');
+    
+    // Create more data points dynamically
+    for (let i = 0; i < 15; i++) {
+      const point = document.createElement('div');
+      point.className = 'data-point';
+      point.style.left = `${Math.random() * 100}%`;
+      point.style.top = `${Math.random() * 100}%`;
+      point.style.animationDelay = `${Math.random() * 3}s`;
+      point.style.width = `${Math.random() * 6 + 4}px`;
+      point.style.height = point.style.width;
+      dataPoints.appendChild(point);
+    }
+    
+    // Add interactive glow effect to team members
+    const teamMembers = document.querySelectorAll('.team-member');
+    teamMembers.forEach(member => {
+      member.addEventListener('mousemove', (e) => {
+        const x = e.pageX - member.offsetLeft;
+        const y = e.pageY - member.offsetTop;
+        
+        member.style.setProperty('--x', `${x}px`);
+        member.style.setProperty('--y', `${y}px`);
+      });
+    });
+  });
+</script>
+{% endblock %}

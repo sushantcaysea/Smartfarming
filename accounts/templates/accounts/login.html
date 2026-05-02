@@ -1,0 +1,317 @@
+{% extends "django_base.html" %}
+
+{% block title %}Login | Smart Farming{% endblock %}
+
+{% block extra_css %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-green: #3a7d44;
+    --secondary-green: #6bbd46;
+    --dark-green: #162938;
+    --light-text: rgba(255, 255, 255, 0.9);
+    --error-red: #ff6b6b;
+    --input-bg: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.wrapper {
+    width: 420px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    margin: 60px auto;
+    transition: all 0.3s ease;
+}
+
+.wrapper:hover {
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+}
+
+.form-box {
+    width: 100%;
+}
+
+.form-box h2 {
+    font-size: 2.2rem;
+    color: var(--light-text);
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+}
+
+.form-box p.subtitle {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+.input-container {
+    margin-bottom: 25px;
+}
+
+.input-container label {
+    display: block;
+    color: var(--light-text);
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s;
+}
+
+.input-box:hover {
+    border-bottom-color: var(--secondary-green);
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: var(--light-text);
+    font-weight: 500;
+    padding: 0 35px 0 5px;
+}
+
+.input-box .icon {
+    position: absolute;
+    right: 35px;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 57px;
+    transition: all 0.3s;
+}
+
+.input-box:hover .icon {
+    color: var(--secondary-green);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 57px;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 2;
+}
+
+.password-toggle:hover {
+    color: var(--secondary-green);
+}
+
+.btn {
+    width: 100%;
+    height: 45px;
+    background: var(--secondary-green);
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    background: var(--primary-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.login-register {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+}
+
+.login-register a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.login-register a:hover {
+    color: var(--secondary-green);
+    text-decoration: underline;
+}
+
+.error-message {
+    color: var(--error-red);
+    text-align: center;
+    margin: 15px 0;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    background: rgba(229, 57, 53, 0.2);
+    border-radius: 4px;
+    border-left: 3px solid var(--error-red);
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: -15px 0 15px;
+}
+
+.remember-forgot label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.remember-forgot input[type="checkbox"] {
+    accent-color: var(--secondary-green);
+    width: 15px;
+    height: 15px;
+}
+
+.remember-forgot a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: 500;
+}
+
+.remember-forgot a:hover {
+    color: var(--secondary-green);
+    text-decoration: underline;
+}
+
+/* Fix for Chrome autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--light-text) !important;
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="form-box login">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Please login to continue</p>
+        
+        <form method="POST" action="{% url 'accounts:login' %}">
+            {% csrf_token %}
+            <div class="input-container">
+                <label>Username</label>
+                <div class="input-box">
+                    <span class="icon"><i class="fas fa-user"></i></span>
+                    <input type="text" name="username" required autocomplete="username">
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <label>Password</label>
+                <div class="input-box">
+                    <span class="icon"><i class="fas fa-lock"></i></span>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                    <span class="password-toggle" id="togglePassword">
+                        <i class="far fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox" name="remember"> Remember me
+                </label>
+                <a href="#" onclick="alert('Password recovery coming soon!')">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="btn">Login</button>
+            
+            {% if error %}
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+            {% endif %}
+            
+            <div class="login-register">
+                <p>Don't have an account? <a href="{% url 'accounts:register' %}">Register here</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Password toggle functionality
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    function togglePasswordVisibility() {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        togglePassword.querySelector('i').classList.toggle('fa-eye');
+        togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+    }
+
+    if (togglePassword) {
+        togglePassword.addEventListener('click', function() {
+            togglePasswordVisibility();
+        });
+    }
+
+    // Focus effects for input boxes
+    document.querySelectorAll('.input-box input').forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentNode.style.borderBottomColor = 'var(--secondary-green)';
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentNode.style.borderBottomColor = 'rgba(255, 255, 255, 0.5)';
+        });
+    });
+});
+</script>
+{% endblock %}
