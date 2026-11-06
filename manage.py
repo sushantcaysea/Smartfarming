@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+# Mute TensorFlow warnings and oneDNN optimization logs
 import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Mute info and warnings, only print errors
+
 import sys
 
 

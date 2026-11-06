@@ -128,6 +128,82 @@
     position: relative;
   }
   
+  .info-tooltip {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.5rem;
+    cursor: help;
+  }
+  
+  .info-icon {
+    width: 20px;
+    height: 20px;
+    background: #2196F3;
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  
+  .tooltip-content {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #1976D2, #2196F3);
+    color: white;
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    width: 280px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .tooltip-content::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #2196F3;
+  }
+  
+  .info-tooltip:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .tooltip-content strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+  }
+  
+  .tooltip-effect {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+  }
+  
+  .effect-high {
+    color: #FFD54F;
+  }
+  
+  .effect-low {
+    color: #90CAF9;
+  }
+  
   input[type="number"] {
     width: 100%;
     padding: 1.1rem 1.3rem;
@@ -185,7 +261,7 @@
     transform: translateY(-1px);
   }
   
-  /* Modal Styles */
+  /* Modal */
   .modal {
     display: none;
     position: fixed;
@@ -206,14 +282,34 @@
   
   .modal-content {
     background: white;
-    margin: 10% auto;
+    margin: 3% auto;
     padding: 0;
-    border-radius: 25px;
+    border-radius: 20px;
     width: 90%;
-    max-width: 500px;
+    max-width: 600px;
+    max-height: 92vh;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     animation: slideUp 0.4s ease-out;
-    overflow: hidden;
+    overflow-y: auto;
+  }
+  
+  /* Scrollbar */
+  .modal-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 0 20px 20px 0;
+  }
+  
+  .modal-content::-webkit-scrollbar-thumb {
+    background: #4CAF50;
+    border-radius: 10px;
+  }
+  
+  .modal-content::-webkit-scrollbar-thumb:hover {
+    background: #45a049;
   }
   
   @keyframes slideUp {
@@ -224,22 +320,22 @@
   .modal-header {
     background: linear-gradient(135deg, #4CAF50, #66BB6A);
     color: white;
-    padding: 2rem;
+    padding: 1.3rem 1.5rem;
     text-align: center;
     position: relative;
   }
   
   .close-btn {
     position: absolute;
-    top: 1rem;
-    right: 1.5rem;
+    top: 0.8rem;
+    right: 1rem;
     color: white;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 300;
     cursor: pointer;
     transition: all 0.2s;
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -253,23 +349,17 @@
   }
   
   .modal-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    animation: bounce 1s ease-in-out infinite;
-  }
-  
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    font-size: 2.5rem;
+    margin-bottom: 0.3rem;
   }
   
   .modal-header h2 {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     margin: 0;
   }
   
   .modal-body {
-    padding: 2.5rem;
+    padding: 1.5rem 1.8rem;
     text-align: center;
   }
   
@@ -284,18 +374,112 @@
   
   .modal-body p {
     color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+  
+  .recommendations-list {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  
+  .recommendation-item {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  .recommendation-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .best-recommendation {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border: 2px solid var(--primary-green);
+  }
+  
+  .best-svm-recommendation {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border: 2px solid #1565c0;
+  }
+  
+  .rank-badge {
+    min-width: 70px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-green);
+    font-size: 0.85rem;
+  }
+  
+  .best-recommendation .rank-badge {
+    color: #2e7d32;
+    font-size: 0.9rem;
+  }
+  
+  .crop-info {
+    flex: 1;
+  }
+  
+  .crop-name {
     font-size: 1.1rem;
-    margin-bottom: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.3rem;
+    text-transform: capitalize;
+  }
+  
+  .confidence-bar-container {
+    width: 100%;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 0.2rem;
+  }
+  
+  .confidence-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-green), #66BB6A);
+    border-radius: 10px;
+    transition: width 1s ease-out;
+  }
+  
+  .confidence-text {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 600;
+  }
+  
+  .recommendation-note {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #856404;
+    margin: 1rem 0 1.2rem 0;
+  }
+  
+  .recommendation-note i {
+    margin-right: 0.5rem;
   }
   
   .modal-btn {
     background: linear-gradient(135deg, #4CAF50, #66BB6A);
     color: white;
     border: none;
-    padding: 1rem 3rem;
+    padding: 0.8rem 2.5rem;
     border-radius: 50px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
@@ -306,7 +490,7 @@
     box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
   }
   
-  /* Responsive Design */
+  /* Responsive */
   @media (max-width: 768px) {
     .page-header h1 {
       font-size: 2rem;
@@ -334,10 +518,312 @@
       grid-template-columns: 1fr;
     }
   }
+  
+  /* Tooltip */
+  .info-tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 0.4rem;
+  }
+  
+  .tooltip-content {
+    display: none;
+    position: absolute;
+    bottom: 135%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1e293b;
+    color: #f8fafc;
+    width: 290px;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2), 0 4px 6px -2px rgba(0,0,0,0.1);
+    z-index: 1000;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-transform: none;
+    font-weight: 400;
+  }
+  
+  .tooltip-content::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #1e293b transparent transparent transparent;
+  }
+  
+  .info-tooltip:hover .tooltip-content {
+    display: block;
+  }
+  
+  /* Results */
+  .results-page {
+    max-width: 1100px;
+    margin: 0 auto 3rem;
+    padding: 2rem 1.5rem 0;
+  }
+
+  .results-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .results-header h1 {
+    margin: 0 0 0.35rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    letter-spacing: -0.02em;
+  }
+
+  .results-header p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+  }
+
+  .results-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1rem;
+    border: 1px solid #cfcfcf;
+    background: #fff;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .results-back:hover {
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+  }
+
+  .results-alert {
+    display: flex;
+    gap: 0.85rem;
+    padding: 0.95rem 1.1rem;
+    margin-bottom: 1.75rem;
+    border: 1px solid #e5e5e5;
+    border-left-width: 3px;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  .results-alert.agree {
+    border-left-color: var(--primary-green);
+  }
+
+  .results-alert.disagree {
+    border-left-color: #b8860b;
+  }
+
+  .results-alert i {
+    margin-top: 0.15rem;
+    color: #666;
+  }
+
+  .results-alert.agree i { color: var(--primary-green); }
+  .results-alert.disagree i { color: #b8860b; }
+
+  .results-alert h4 {
+    margin: 0 0 0.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  .results-alert p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #555;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .model-panel {
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  .model-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.9rem 1.15rem;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fafafa;
+  }
+
+  .model-panel-header h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  .crop-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .crop-row {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.85rem 1.15rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .crop-row:last-child {
+    border-bottom: none;
+  }
+
+  .crop-row.is-primary {
+    background: #f7faf7;
+  }
+
+  .svm-panel .crop-row.is-primary {
+    background: #f7f9fc;
+  }
+
+  .crop-rank {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .crop-row.is-primary .crop-rank {
+    color: var(--primary-green);
+  }
+
+  .svm-panel .crop-row.is-primary .crop-rank {
+    color: #1565c0;
+  }
+
+  .crop-meta {
+    min-width: 0;
+  }
+
+  .crop-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-transform: capitalize;
+    margin-bottom: 0.35rem;
+  }
+
+  .crop-bar {
+    height: 4px;
+    background: #ececec;
+    overflow: hidden;
+  }
+
+  .crop-bar > span {
+    display: block;
+    height: 100%;
+    background: var(--primary-green);
+  }
+
+  .svm-panel .crop-bar > span {
+    background: #1565c0;
+  }
+
+  .crop-pct {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .results-note {
+    margin: 0 0 1.75rem;
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: #777;
+  }
+
+  .results-actions {
+    text-align: center;
+    padding-top: 0.25rem;
+  }
+
+  .results-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    background: var(--primary-green);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+  }
+
+  .results-actions a:hover {
+    background: #2f6638;
+    transform: none;
+  }
+
+  .empty-model {
+    margin: 0;
+    padding: 2rem 1.15rem;
+    text-align: center;
+    color: #999;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 800px) {
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .results-header h1 {
+      font-size: 1.45rem;
+    }
+  }
 </style>
 {% endblock %}
 
 {% block content %}
+{% if not rf_recommendations and not svm_recommendations %}
+<!-- Form -->
 <div class="page-header">
   <div class="page-badge">
     <i class="fas fa-seedling"></i> AI-Powered Recommendation
@@ -348,13 +834,25 @@
 
 <div class="form-container">
   <form method="post">
-            {% csrf_token %}
+    {% csrf_token %}
     <div class="form-grid">
       <div class="form-group">
         <label>
           <span class="label-content">
             <span class="label-icon"><i class="fas fa-flask"></i></span>
             <span class="label-text">Nitrogen (N)</span>
+            <span class="info-tooltip">
+              <span class="info-icon">i</span>
+              <div class="tooltip-content">
+                <strong>Nitrogen (N) - For Green Leaves</strong>
+                <em>Unit: ppm (parts per million) - measures nitrogen content in soil</em><br><br>
+                Nitrogen makes plants grow green and leafy. Think of it as plant food for leaves.
+                <div class="tooltip-effect">
+                  <span class="effect-high">⬆ More Nitrogen (80-140):</span> Good for leafy vegetables like spinach, cabbage, lettuce<br>
+                  <span class="effect-low">⬇ Less Nitrogen (0-50):</span> Good for root vegetables like potato, carrot, onion
+                </div>
+              </div>
+            </span>
           </span>
           <span class="label-info">
             <span class="unit-badge">ppm</span>
@@ -362,7 +860,7 @@
           </span>
         </label>
         <div class="input-wrapper">
-          <input type="number" name="N" id="N" step="0.1" placeholder="Enter value (e.g., 90)" required min="0" max="140">
+          <input type="number" name="N" id="N" step="0.1" placeholder="Enter value (e.g., 90)" required min="0" max="140" value="{{ form_values.N }}">
         </div>
       </div>
       
@@ -371,6 +869,18 @@
           <span class="label-content">
             <span class="label-icon"><i class="fas fa-vial"></i></span>
             <span class="label-text">Phosphorus (P)</span>
+            <span class="info-tooltip">
+              <span class="info-icon">i</span>
+              <div class="tooltip-content">
+                <strong>Phosphorus (P) - For Strong Roots & Flowers</strong>
+                <em>Unit: ppm (parts per million) - measures phosphorus content in soil</em><br><br>
+                Phosphorus helps plants grow strong roots and produce flowers/fruits. Essential for flowering and fruiting.
+                <div class="tooltip-effect">
+                  <span class="effect-high">⬆ More Phosphorus (60-145):</span> Good for fruit crops like tomato, beans, apple, mango<br>
+                  <span class="effect-low">⬇ Less Phosphorus (5-40):</span> Good for leafy greens like spinach, lettuce
+                </div>
+              </div>
+            </span>
           </span>
           <span class="label-info">
             <span class="unit-badge">ppm</span>
@@ -378,7 +888,7 @@
           </span>
         </label>
         <div class="input-wrapper">
-          <input type="number" name="P" id="P" step="0.1" placeholder="Enter value (e.g., 42)" required min="5" max="145">
+          <input type="number" name="P" id="P" step="0.1" placeholder="Enter value (e.g., 42)" required min="5" max="145" value="{{ form_values.P }}">
         </div>
       </div>
       
@@ -387,6 +897,18 @@
           <span class="label-content">
             <span class="label-icon"><i class="fas fa-atom"></i></span>
             <span class="label-text">Potassium (K)</span>
+            <span class="info-tooltip">
+              <span class="info-icon">i</span>
+              <div class="tooltip-content">
+                <strong>Potassium (K) - For Disease Protection & Quality</strong>
+                <em>Unit: ppm (parts per million) - measures potassium content in soil</em><br><br>
+                Potassium protects plants from diseases and improves fruit quality. Makes crops healthier and tastier.
+                <div class="tooltip-effect">
+                  <span class="effect-high">⬆ More Potassium (100-205):</span> Good for fruits like banana, grapes, watermelon, orange<br>
+                  <span class="effect-low">⬇ Less Potassium (5-60):</span> Good for grains like wheat, rice, maize
+                </div>
+              </div>
+            </span>
           </span>
           <span class="label-info">
             <span class="unit-badge">ppm</span>
@@ -394,7 +916,7 @@
           </span>
         </label>
         <div class="input-wrapper">
-          <input type="number" name="K" id="K" step="0.1" placeholder="Enter value (e.g., 43)" required min="5" max="205">
+          <input type="number" name="K" id="K" step="0.1" placeholder="Enter value (e.g., 43)" required min="5" max="205" value="{{ form_values.K }}">
         </div>
       </div>
       
@@ -403,6 +925,18 @@
           <span class="label-content">
             <span class="label-icon"><i class="fas fa-thermometer-half"></i></span>
             <span class="label-text">Temperature</span>
+            <span class="info-tooltip">
+              <span class="info-icon">i</span>
+              <div class="tooltip-content">
+                <strong>Temperature - Climate Condition</strong>
+                <em>Unit: °C (Degrees Celsius) - average temperature of your area</em><br><br>
+                Temperature tells us if your area is hot, warm, or cold. Different crops grow in different climates.
+                <div class="tooltip-effect">
+                  <span class="effect-high">⬆ Hot Climate (30-44°C):</span> Good for rice, cotton, watermelon, muskmelon<br>
+                  <span class="effect-low">⬇ Cool Climate (8-20°C):</span> Good for wheat, barley, apple, lentil
+                </div>
+              </div>
+            </span>
           </span>
           <span class="label-info">
             <span class="unit-badge">°C</span>
@@ -410,7 +944,7 @@
           </span>
         </label>
         <div class="input-wrapper">
-          <input type="number" name="temp" id="temp" step="0.1" placeholder="Enter value (e.g., 25)" required min="8" max="44">
+          <input type="number" name="temp" id="temp" step="0.1" placeholder="Enter value (e.g., 25)" required min="8" max="44" value="{{ form_values.temp }}">
         </div>
       </div>
       
@@ -419,6 +953,18 @@
           <span class="label-content">
             <span class="label-icon"><i class="fas fa-tint"></i></span>
             <span class="label-text">Humidity</span>
+            <span class="info-tooltip">
+              <span class="info-icon">i</span>
+              <div class="tooltip-content">
+                <strong>Humidity - Moisture in Air</strong>
+                <em>Unit: % (percentage) - how much water vapor is in the air</em><br><br>
+                Humidity tells us if the air is dry or moist. High humidity means air feels wet/sticky, low means air feels dry.
+                <div class="tooltip-effect">
+                  <span class="effect-high">⬆ High Humidity (70-100%):</span> Good for rice, jute, coconut, banana<br>
+                  <span class="effect-low">⬇ Low Humidity (14-50%):</span> Good for chickpea, millet, pomegranate
+                </div>
+              </div>
+            </span>
           </span>
           <span class="label-info">
             <span class="unit-badge">%</span>
@@ -426,7 +972,7 @@
           </span>
         </label>
         <div class="input-wrapper">
-          <input type="number" name="humidity" id="humidity" min="14" max="100" placeholder="Enter value (e.g., 80)" required>
+          <input type="number" name="humidity" id="humidity" min="14" max="100" placeholder="Enter value (e.g., 80)" required value="{{ form_values.humidity }}">
         </div>
       </div>
       
@@ -435,6 +981,18 @@
           <span class="label-content">
             <span class="label-icon"><i class="fas fa-balance-scale"></i></span>
             <span class="label-text">Soil pH</span>
+            <span class="info-tooltip">
+              <span class="info-icon">i</span>
+              <div class="tooltip-content">
+                <strong>Soil pH - Acidity Level</strong>
+                <em>Unit: pH scale (0-14) - 7 is neutral, below 7 is acidic (sour), above 7 is alkaline (bitter)</em><br><br>
+                pH tells us if soil is acidic (like lemon) or alkaline (like soap). Most crops like neutral soil (pH 6-7).
+                <div class="tooltip-effect">
+                  <span class="effect-high">⬆ Alkaline Soil (7.5-9.9):</span> Good for barley, beet, cabbage<br>
+                  <span class="effect-low">⬇ Acidic Soil (3.5-6):</span> Good for potato, tea, blueberry
+                </div>
+              </div>
+            </span>
           </span>
           <span class="label-info">
             <span class="unit-badge">pH</span>
@@ -442,7 +1000,7 @@
           </span>
         </label>
         <div class="input-wrapper">
-          <input type="number" name="ph" id="ph" min="3.5" max="9.9" step="0.1" placeholder="Enter value (e.g., 6.5)" required>
+          <input type="number" name="ph" id="ph" min="3.5" max="9.9" step="0.1" placeholder="Enter value (e.g., 6.5)" required value="{{ form_values.ph }}">
         </div>
       </div>
       
@@ -451,6 +1009,18 @@
           <span class="label-content">
             <span class="label-icon"><i class="fas fa-cloud-rain"></i></span>
             <span class="label-text">Rainfall</span>
+            <span class="info-tooltip">
+              <span class="info-icon">i</span>
+              <div class="tooltip-content">
+                <strong>Rainfall - Water from Rain</strong>
+                <em>Unit: mm/year (millimeters per year) - total rain your area gets in one year</em><br><br>
+                Rainfall tells us how much rain your area receives. Some crops need lots of water, others grow in dry areas.
+                <div class="tooltip-effect">
+                  <span class="effect-high">⬆ Heavy Rainfall (200-300mm):</span> Good for rice, sugarcane, jute, coconut<br>
+                  <span class="effect-low">⬇ Light Rainfall (20-100mm):</span> Good for millet, sorghum, chickpea
+                </div>
+              </div>
+            </span>
           </span>
           <span class="label-info">
             <span class="unit-badge">mm/year</span>
@@ -458,35 +1028,178 @@
           </span>
         </label>
         <div class="input-wrapper">
-          <input type="number" name="rainfall" id="rainfall" step="0.1" placeholder="Enter value (e.g., 200)" required min="20" max="300">
+          <input type="number" name="rainfall" id="rainfall" step="0.1" placeholder="Enter value (e.g., 200)" required min="20" max="300" value="{{ form_values.rainfall }}">
         </div>
       </div>
     </div>
-    
-    <button type="submit" class="submit-btn">
+
+    <button type="submit" class="submit-btn" style="margin-top: 2rem;">
       <i class="fas fa-magic"></i>
-      Get Recommendation
+      Get Crop Recommendation
     </button>
   </form>
 </div>
 
-{% if prediction %}
-<!-- Result Modal -->
-<div id="resultModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <span class="close-btn">&times;</span>
-      <div class="modal-icon">🌾</div>
-      <h2>Recommendation Ready!</h2>
+{% else %}
+<!-- Results -->
+<div class="results-page">
+  <div class="results-header">
+    <div>
+      <h1>Crop Suitability Analysis</h1>
+      <p>Evaluation of your soil profile and climate parameters</p>
     </div>
-    <div class="modal-body">
-      <p>Based on your soil and climate conditions, we recommend:</p>
-      <div class="crop-result">{{ prediction }}</div>
-      <p>This crop is best suited for your agricultural parameters</p>
-      <button onclick="closeModal()" class="modal-btn">
-        <i class="fas fa-check"></i> Got it!
-      </button>
+    <a href="{% url 'crops:recommendation' %}" class="results-back">
+      ← New recommendation
+    </a>
+  </div>
+
+  {% if rf_recommendations and svm_recommendations and gb_recommendations %}
+    {% if consensus_agreed %}
+    <div class="results-alert agree">
+      <i class="fas fa-check-circle" aria-hidden="true"></i>
+      <div>
+        <h4>Model consensus</h4>
+        <p>
+          All three models recommend <strong style="text-transform: capitalize;">{{ rf_primary_crop }}</strong>
+          as the primary crop{% if rf_primary_reason %} because {{ rf_primary_reason }}{% endif %}.
+        </p>
+      </div>
     </div>
+    {% else %}
+    <div class="results-alert disagree">
+      <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+      <div>
+        <h4>Models disagree</h4>
+        <p>
+          Random Forest recommends <strong style="text-transform: capitalize;">{{ rf_primary_crop }}</strong>;
+          SVM suggests <strong style="text-transform: capitalize;">{{ svm_primary_crop }}</strong>;
+          Gradient Boosting suggests <strong style="text-transform: capitalize;">{{ gb_primary_crop }}</strong>.
+          Random Forest is shown as the primary recommendation when models disagree.
+        </p>
+      </div>
+    </div>
+    {% endif %}
+  {% endif %}
+
+  <div class="comparison-grid">
+    <section class="model-panel rf-panel">
+      <div class="model-panel-header">
+        <h3>Random Forest</h3>
+      </div>
+      {% if rf_recommendations %}
+      <ul class="crop-rows">
+        {% for item in rf_recommendations %}
+          {% if item.confidence > 0.0 %}
+          <li class="crop-row {% if forloop.first %}is-primary{% endif %}">
+            <span class="crop-rank">{% if forloop.first %}Primary{% else %}#{{ forloop.counter }}{% endif %}</span>
+            <div class="crop-meta">
+              <div class="crop-title">
+                {{ item.crop }}
+                <span class="info-tooltip">
+                  <span class="info-icon" style="background:#888;width:14px;height:14px;font-size:0.6rem;line-height:14px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:help;color:#fff;">i</span>
+                  <div class="tooltip-content">
+                    <strong style="display:block;border-bottom:1px solid rgba(255,255,255,0.2);margin-bottom:0.4rem;padding-bottom:0.2rem;font-size:0.8rem;color:#fff;">Suitability rationale</strong>
+                    <ul style="margin:0;padding-left:1rem;list-style-type:disc;font-size:0.75rem;color:#e2e8f0;line-height:1.3;">
+                      {% for reason in item.rationale %}
+                        <li style="margin-bottom:0.2rem;">{{ reason }}</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </span>
+              </div>
+              <div class="crop-bar"><span style="width: {{ item.confidence }}%;"></span></div>
+            </div>
+            <span class="crop-pct">{{ item.confidence }}%</span>
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty-model">Random Forest results unavailable.</p>
+      {% endif %}
+    </section>
+
+    <section class="model-panel svm-panel">
+      <div class="model-panel-header">
+        <h3>SVM Classifier</h3>
+      </div>
+      {% if svm_recommendations %}
+      <ul class="crop-rows">
+        {% for item in svm_recommendations %}
+          {% if item.confidence > 0.0 %}
+          <li class="crop-row {% if forloop.first %}is-primary{% endif %}">
+            <span class="crop-rank">{% if forloop.first %}Primary{% else %}#{{ forloop.counter }}{% endif %}</span>
+            <div class="crop-meta">
+              <div class="crop-title">
+                {{ item.crop }}
+                <span class="info-tooltip">
+                  <span class="info-icon" style="background:#888;width:14px;height:14px;font-size:0.6rem;line-height:14px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:help;color:#fff;">i</span>
+                  <div class="tooltip-content">
+                    <strong style="display:block;border-bottom:1px solid rgba(255,255,255,0.2);margin-bottom:0.4rem;padding-bottom:0.2rem;font-size:0.8rem;color:#fff;">Suitability rationale</strong>
+                    <ul style="margin:0;padding-left:1rem;list-style-type:disc;font-size:0.75rem;color:#e2e8f0;line-height:1.3;">
+                      {% for reason in item.rationale %}
+                        <li style="margin-bottom:0.2rem;">{{ reason }}</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </span>
+              </div>
+              <div class="crop-bar"><span style="width: {{ item.confidence }}%;"></span></div>
+            </div>
+            <span class="crop-pct">{{ item.confidence }}%</span>
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty-model">SVM results unavailable.</p>
+      {% endif %}
+    </section>
+
+    <section class="model-panel gb-panel">
+      <div class="model-panel-header">
+        <h3>Gradient Boosting</h3>
+      </div>
+      {% if gb_recommendations %}
+      <ul class="crop-rows">
+        {% for item in gb_recommendations %}
+          {% if item.confidence > 0.0 %}
+          <li class="crop-row {% if forloop.first %}is-primary{% endif %}">
+            <span class="crop-rank">{% if forloop.first %}Primary{% else %}#{{ forloop.counter }}{% endif %}</span>
+            <div class="crop-meta">
+              <div class="crop-title">
+                {{ item.crop }}
+                <span class="info-tooltip">
+                  <span class="info-icon" style="background:#888;width:14px;height:14px;font-size:0.6rem;line-height:14px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:help;color:#fff;">i</span>
+                  <div class="tooltip-content">
+                    <strong style="display:block;border-bottom:1px solid rgba(255,255,255,0.2);margin-bottom:0.4rem;padding-bottom:0.2rem;font-size:0.8rem;color:#fff;">Suitability rationale</strong>
+                    <ul style="margin:0;padding-left:1rem;list-style-type:disc;font-size:0.75rem;color:#e2e8f0;line-height:1.3;">
+                      {% for reason in item.rationale %}
+                        <li style="margin-bottom:0.2rem;">{{ reason }}</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </span>
+              </div>
+              <div class="crop-bar"><span style="width: {{ item.confidence }}%;"></span></div>
+            </div>
+            <span class="crop-pct">{{ item.confidence }}%</span>
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty-model">Gradient Boosting results unavailable.</p>
+      {% endif %}
+    </section>
+  </div>
+
+  <p class="results-note">
+    Random Forest aggregates tree votes; SVM separates classes with high-dimensional boundaries; Gradient Boosting builds trees sequentially to correct prior errors. Small differences between models are expected.
+  </p>
+
+  <div class="results-actions">
+    <a href="{% url 'crops:recommendation' %}">Run another recommendation</a>
   </div>
 </div>
 {% endif %}
@@ -494,33 +1207,6 @@
 
 {% block extra_js %}
 <script>
-  // Show modal when prediction exists
-  window.onload = function() {
-    {% if prediction %}
-      document.getElementById('resultModal').style.display = 'block';
-    {% endif %}
-  };
-  
-  // Close modal functions
-  function closeModal() {
-    document.getElementById('resultModal').style.display = 'none';
-  }
-  
-  // Close when clicking X
-  const closeBtn = document.querySelector('.close-btn');
-  if (closeBtn) {
-    closeBtn.onclick = closeModal;
-  }
-  
-  // Close when clicking outside modal
-  window.onclick = function(event) {
-    const modal = document.getElementById('resultModal');
-    if (event.target == modal) {
-      closeModal();
-    }
-  }
-  
-  // Add input validation feedback
   document.querySelectorAll('input[type="number"]').forEach(input => {
     input.addEventListener('input', function() {
       if (this.value) {

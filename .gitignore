@@ -23,6 +23,7 @@ staticfiles/
 .idea/
 *.swp
 *.swo
+.ipynb_checkpoints/
 
 # Large datasets - download separately
 plant_disease_data/

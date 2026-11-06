@@ -65,7 +65,7 @@
     animation: fadeInUp 0.8s ease-out;
   }
   
-  /* Result Section */
+  /* Result */
   .result-section {
     width: 100%;
     animation: fadeInUp 0.8s ease-out;
@@ -100,16 +100,16 @@
     font-size: 2rem;
     margin: 0;
   }
-  
+
   .result-content {
     padding: 2.5rem;
   }
-  
+
   .result-image-container {
     text-align: center;
     margin-bottom: 2rem;
   }
-  
+
   .result-image {
     width: 100%;
     max-width: 400px;
@@ -118,7 +118,7 @@
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   }
-  
+
   .result-actions {
     text-align: center;
     margin-top: 2rem;
@@ -284,7 +284,7 @@
     cursor: not-allowed;
   }
   
-  /* Modal Styles */
+  /* Modal */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -490,7 +490,7 @@
     font-size: 1.2rem;
   }
   
-  /* Info Section */
+  /* Info */
   .info-section {
     margin-top: 3rem;
     padding: 2rem;
@@ -512,7 +512,7 @@
     line-height: 1.8;
   }
   
-  /* Responsive Design */
+  /* Responsive */
   @media (max-width: 768px) {
     .page-header h1 {
       font-size: 2rem;
@@ -566,12 +566,17 @@
             <h3>Upload Leaf Image</h3>
             <p>Drag and drop or click to browse</p>
           </div>
-          <input type="file" id="fileInput" name="leaf" class="file-input" accept="image/*" required>
+          <input type="file" id="fileInput" name="leaf" class="file-input"
+                 accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                 required>
           <label for="fileInput" class="file-label">
             <i class="fas fa-camera"></i>
             Choose Image
           </label>
           <div class="file-name" id="fileName"></div>
+          <p class="upload-hint" id="uploadHint" style="margin-top:0.75rem;font-size:0.85rem;color:#666;">
+            JPG, PNG, or WebP only
+          </p>
         </div>
         
         <button type="submit" class="submit-btn" id="submitBtn">
@@ -593,7 +598,7 @@
   </div>
 
   {% if prediction is not none %}
-  <!-- Result Section -->
+  <!-- Result -->
   <div class="result-section" id="resultSection">
     <div class="result-container">
       <div class="result-header">
@@ -676,48 +681,85 @@
 
 {% block extra_js %}
 <script>
-  // File input handling
   const fileInput = document.getElementById('fileInput');
   const fileName = document.getElementById('fileName');
   const uploadArea = document.getElementById('uploadArea');
   const submitBtn = document.getElementById('submitBtn');
   const uploadForm = document.getElementById('uploadForm');
-  
+  const uploadHint = document.getElementById('uploadHint');
+
+  const ALLOWED_TYPES = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp']);
+  const ALLOWED_EXTS = new Set(['jpg', 'jpeg', 'png', 'webp']);
+
+  function isAllowedImage(file) {
+    if (!file) return false;
+    const ext = (file.name.split('.').pop() || '').toLowerCase();
+    const typeOk = !file.type || ALLOWED_TYPES.has(file.type.toLowerCase());
+    const extOk = ALLOWED_EXTS.has(ext);
+    return typeOk && extOk;
+  }
+
+  function setSelectedFile(file) {
+    if (!isAllowedImage(file)) {
+      fileInput.value = '';
+      fileName.textContent = '';
+      fileName.classList.remove('show');
+      if (uploadHint) {
+        uploadHint.textContent = 'Only JPG, PNG, or WebP image files are allowed.';
+        uploadHint.style.color = '#c62828';
+      }
+      return false;
+    }
+    if (uploadHint) {
+      uploadHint.textContent = 'JPG, PNG, or WebP only';
+      uploadHint.style.color = '#666';
+    }
+    fileName.textContent = file.name;
+    fileName.classList.add('show');
+    return true;
+  }
+
   fileInput.addEventListener('change', function(e) {
     if (e.target.files.length > 0) {
-      fileName.textContent = '📄 ' + e.target.files[0].name;
-      fileName.classList.add('show');
+      setSelectedFile(e.target.files[0]);
     }
   });
-  
-  // Drag and drop
+
   uploadArea.addEventListener('dragover', (e) => {
     e.preventDefault();
     uploadArea.classList.add('dragover');
   });
-  
+
   uploadArea.addEventListener('dragleave', () => {
     uploadArea.classList.remove('dragover');
   });
-  
+
   uploadArea.addEventListener('drop', (e) => {
     e.preventDefault();
     uploadArea.classList.remove('dragover');
-    
     if (e.dataTransfer.files.length > 0) {
-      fileInput.files = e.dataTransfer.files;
-      fileName.textContent = '📄 ' + e.dataTransfer.files[0].name;
-      fileName.classList.add('show');
+      const file = e.dataTransfer.files[0];
+      if (!setSelectedFile(file)) return;
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      fileInput.files = dt.files;
     }
   });
-  
-  // Form submission
-  uploadForm.addEventListener('submit', function() {
+
+  uploadForm.addEventListener('submit', function(e) {
+    const file = fileInput.files[0];
+    if (!isAllowedImage(file)) {
+      e.preventDefault();
+      if (uploadHint) {
+        uploadHint.textContent = 'Please select a JPG, PNG, or WebP image before analyzing.';
+        uploadHint.style.color = '#c62828';
+      }
+      return;
+    }
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
     submitBtn.disabled = true;
   });
-  
-  // Scroll to result if present
+
   const resultSection = document.getElementById('resultSection');
   if (resultSection) {
     resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });

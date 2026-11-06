@@ -1,0 +1,8 @@
+django>=6.0.3
+scikit-learn>=1.8.0
+joblib>=1.5.3
+numpy>=2.0.0
+tensorflow>=2.15.0
+keras>=3.0.0
+pillow>=10.0.0
+python-dotenv>=1.0.0

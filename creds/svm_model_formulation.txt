@@ -1,0 +1,25 @@
+Support Vector Machine (SVM) Classifier Model
+The Support Vector Machine (SVM) Classifier is a supervised learning method that constructs optimal decision boundaries (hyperplanes) in a high-dimensional feature space to maximize the margin between different classes. 
+In the Crop Recommendation System, the SVM model uses soil features—Nitrogen (N), Phosphorus (P), Potassium (K), and soil pH—along with climatic features—Temperature, Humidity, and Rainfall—to classify and recommend the optimal crop out of 22 agricultural categories.
+SVM is highly effective in high-dimensional spaces and is mathematically robust against overfitting, particularly when using non-linear kernels to project data into higher dimensions. However, SVM lacks direct probability estimates; generating class probabilities (e.g., for recommending top 5 crops) requires Platt Scaling, which involves computationally expensive internal cross-validation. Additionally, training time scales quadratically with the number of samples, making it slower on massive datasets compared to tree-based ensemble methods.
+
+The model uses a non-linear mapping function phi(x) to project features into a higher-dimensional space where classes are linearly separable. In this system, it utilizes the Radial Basis Function (RBF) kernel to handle complex non-linear boundaries. For multi-class classification (K = 22), the model employs a One-vs-One (OvO) strategy, training L = K*(K-1)/2 = 231 binary SVM classifiers.
+
+The decision boundary for each binary classifier comparing class i and class j is represented as:
+f_{i,j}(x) = sum_{k in SV} ( alpha_k * y_k * K(x_k, x) ) + b_{i,j}
+
+The final crop recommendation is determined by aggregating the classification decisions (votes) of all 231 binary classifiers:
+y_hat = argmax_{c in {1, ..., K}} sum_{i < j} I( sign(f_{i,j}(x)) == c )
+
+To obtain the class prediction probability for a crop class c, the decision values are mapped using Platt Scaling (logistic sigmoid function):
+P(y = c | x) = 1 / ( 1 + exp(A * f(x) + B) )
+
+Where:
+• y_hat is the final predicted crop class recommendation.
+• K is the total number of crop categories (K = 22).
+• f_{i,j}(x) is the decision value output by the binary classifier trained to distinguish between class i and class j.
+• K(x_k, x) = exp( -gamma * ||x_k - x||^2 ) is the Radial Basis Function (RBF) kernel measuring similarity between the input feature vector x and support vector x_k.
+• alpha_k is the Lagrange multiplier and y_k in {-1, 1} is the class label associated with the k-th support vector.
+• b_{i,j} is the bias parameter of the binary classifier.
+• I(•) is the binary indicator function, returning 1 if the condition is met and 0 otherwise.
+• A and B are parameters learned via cross-validation during Platt Scaling to map distance-to-hyperplane to probabilities.
